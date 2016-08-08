@@ -1,8 +1,8 @@
 {
   "name": "react-libs",
   "version": "1.0.0",
-  "description": "react libs",
-  "main": "dist/libs",
+  "description": "Test React Libs",
+  "main": "dist/react-libs",
   "scripts": {
     "dist": "webpack"
   },
@@ -29,7 +29,9 @@
     "eslint": "3.2.2",
     "eslint-plugin-react": "6.0.0",
     "express": "4.14.0",
+    "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
+    "image-webpack-loader": "2.0.0",
     "img-loader": "1.3.1",
     "json-loader": "0.5.4",
     "minimist": "1.2.0",
@@ -40,8 +42,7 @@
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.13.1",
-    "webpack-dev-server": "1.14.1",
-    "image-webpack-loader": "2.0.0"
+    "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
     "react": "15.3.0",

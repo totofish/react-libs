@@ -1,20 +1,32 @@
 'use strict';
 
-var path              = require('path');
-var autoprefixer      = require('autoprefixer');
-var webpack           = require('webpack');
-process.env.NODE_ENV = 'production';
+const path              = require('path');
+const autoprefixer      = require('autoprefixer');
+const webpack           = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const del               = require('del');
+process.env.NODE_ENV    = 'production';
+
+del(['dist']).then(paths => {
+    console.log('Deleted files and folders:\n', paths.join('\n'));
+});
 
 module.exports = {
   entry: {
-    'libs': ['./lib/libs.js']
+    'react-libs': ['./lib/libs.js']
   },
   output: {
+    library: 'react-libs',
     libraryTarget: "umd",
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     publicPath: '',
     // chunkFilename: "[name].[hash].js"
+  },
+  externals: {
+    'react': 'react',
+    'react-addons-shallow-compare': 'react-addons-shallow-compare',
+    'react-dom': 'react-dom'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -22,7 +34,8 @@ module.exports = {
       // 將 Environment Variables - 環境變數傳入
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new ExtractTextPlugin('react-libs.css')
   ],
   module: {
     loaders: [
@@ -41,9 +54,6 @@ module.exports = {
           }
         }
       }, {
-        test: /\.(css|scss)$/,
-        loaders: ['style', 'css', 'postcss', 'sass']
-      }, {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
           'url?name=[path][name].[ext]',
@@ -52,6 +62,9 @@ module.exports = {
       }, {
         test: /\.json$/,
         loaders: ['json']
+      }, {
+        test: /\.(css|scss)$/,
+        loader: ExtractTextPlugin.extract(['css', 'postcss', 'sass'])
       }
     ]
   },
